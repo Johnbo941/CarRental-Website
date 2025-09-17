@@ -24,6 +24,7 @@ export const checkAvailabilityOfCar = async (req, res)=> {
         // check car availability for the given date range using promise
         const availableCarsPromises = cars.map(async (car)=> {
             const isAvailable = await checkAvailability(car._id, pickupDate, returnDate)
+            return {...car._doc, isAvailable: isAvailable}
         })
         
         let availableCars = await Promise.all(availableCarsPromises)
@@ -57,7 +58,7 @@ export const createBooking = async (req, res)=> {
         const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24))
         const price = carData.pricePerDay * noOfDays;
         
-        await Booking.create({car,owner: carData.owner, user: _id, pickupDate, returnDate, price})
+        await Booking.create({car, owner: carData.owner, user: _id, pickupDate, returnDate, price})
 
         res.json({success: true, message: "Booking Created"})
 
@@ -73,7 +74,7 @@ export const getUserBookings = async (req, res)=>{
         const {_id} = req.user;
         const bookings = await Booking.find({ user: _id }).populate("car").sort
         ({createdAt: -1})
-         res.json({success: true, message: bookings})
+         res.json({success: true, bookings})
 
 
     } catch (error) {

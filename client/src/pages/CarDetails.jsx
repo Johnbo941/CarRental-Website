@@ -3,11 +3,15 @@ import { useParams, useNavigate  } from "react-router-dom";
 import { assets } from '../assets/assets';
 import { dummyCarData } from '../assets/assets';
 import Loader from '../components/Loader';
+import { useAppContext } from '../context/AppContext';
 
 
 const CarDetails = () => {
 
   const {id} = useParams()
+
+  const {cars, axios, pickupDate, setPickupDate, returnDate,  setReturnDate} = useAppContext()
+
   const navigate = useNavigate()
   const [car, setCar] = useState(null)
   const currency = import.meta.env.VITE_CURRENCY
@@ -17,8 +21,8 @@ const CarDetails = () => {
   }
 
   useEffect(() => {
-    setCar(dummyCarData.find(car => car._id === id))
-  },[id])
+    setCar(cars.find(car => car._id === id))
+  },[cars, id])
 
   return car ? (
     <div className='px-6 md:px-16 lg:px-24 xl:px-32 mt-16'>
