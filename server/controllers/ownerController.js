@@ -26,6 +26,13 @@ export const addCar = async (req, res)=> {
         let car = JSON.parse(req.body.carData);
         const imageFile = req.file;
 
+        if (!imageFile) {
+            return res.status(400).json({
+                success: false,
+                message: "Car image is required. Please upload an image."
+            });
+        }
+
         // Upload Image to ImageKit
         const fileBuffer = fs.readFileSync(imageFile.path);
         const response = await imagekit.upload({
