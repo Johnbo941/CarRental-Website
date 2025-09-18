@@ -72,7 +72,7 @@ const Cars = () => {
         <motion.div
         initial={{opacity: 0, y: 20}}
         animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.3, duration: 0.6 }}
+        transition={{delay: 0.3, duration: 0.6 }}
         
 
         className='flex items-center bg-white px-4 mt-6 max-w-140 w-full h-12 rounded-full shadow'>
